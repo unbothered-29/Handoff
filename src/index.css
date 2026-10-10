@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-primary-dark: #1A435A;
+  --color-primary-ocean: #4987A4;
+  --color-primary-ice: #D3EBF9;
+  --color-primary-white: #FFFFFF;
+
+  --color-brand: #1A435A;
+  --color-brand-hover: #133345;
+  --color-brand-subtle: #D3EBF9;
+  --color-brand-text: #1A435A;
+
+  --font-poppins: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    @apply antialiased text-slate-800 bg-[#F4FAFD] dark:bg-[#0c1f2b] dark:text-slate-100 selection:bg-[#D3EBF9] selection:text-[#1A435A] dark:selection:bg-[#1A435A] dark:selection:text-[#D3EBF9] transition-colors duration-200;
+  }
+}
+
+/* Style Guide Glassmorphic Buttons */
+.btn-glass-white {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(235, 245, 252, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 1), 0 4px 12px rgba(26, 67, 90, 0.12);
+  color: #1A435A;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glass-white:hover {
+  background: linear-gradient(180deg, #FFFFFF 0%, #E2F1FB 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 1), 0 6px 18px rgba(26, 67, 90, 0.18);
+  transform: translateY(-1px);
+}
+.btn-glass-white:active {
+  transform: translateY(0);
+}
+
+.btn-glass-blue {
+  background: linear-gradient(180deg, #5a9bb8 0%, #3e7b98 100%);
+  border: 1px solid rgba(211, 235, 249, 0.45);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0 4px 14px rgba(26, 67, 90, 0.28);
+  color: #FFFFFF;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glass-blue:hover {
+  background: linear-gradient(180deg, #62a5c3 0%, #4483a1 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 6px 20px rgba(26, 67, 90, 0.36);
+  transform: translateY(-1px);
+}
+.btn-glass-blue:active {
+  transform: translateY(0);
+}
+
+.btn-glass-arrow {
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-glass-arrow:hover {
+  transform: translateY(-1px);
+}
+
+/* Frosted Circular Icons from the style guide */
+.glass-icon-circle {
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(211, 235, 249, 0.45);
+  transition: all 0.2s ease;
+}
+.glass-icon-circle:hover {
+  border-color: rgba(73, 135, 164, 0.6);
+  transform: scale(1.05);
+}
+
+/* Glass Card */
+.glass-card {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(211, 235, 249, 0.7);
+  box-shadow: 0 4px 24px -2px rgba(26, 67, 90, 0.06);
+}
+.dark .glass-card {
+  background: rgba(19, 47, 63, 0.75);
+  border: 1px solid rgba(73, 135, 164, 0.25);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom discreet, modern scrollbars globally instead of default clunky OS white bars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
+}
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(150, 150, 150, 0.3) transparent;
+}
