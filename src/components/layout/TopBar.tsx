@@ -55,7 +55,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onOpenMobileMenu, collapsed }) =
   const getBreadcrumbs = () => {
     switch (currentView) {
       case 'overview':
-        return [{ label: 'Dashboard', path: 'overview' }];
+        return [{ label: 'Company Workplace', path: 'overview' }];
       case 'projects':
         return [{ label: 'Projects', path: 'projects' }];
       case 'project-detail': {

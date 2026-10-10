@@ -124,7 +124,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   Continuity
                 </span>
                 <span className="text-[11px] text-[#D3EBF9]/70 block font-normal truncate">
-                  Knowledge & Handoffs
+                  Company Workplace
                 </span>
               </div>
             )}

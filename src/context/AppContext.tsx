@@ -5,7 +5,9 @@ import {
   Handoff, 
   ActivityItem, 
   AppView, 
-  HandoffBriefing 
+  HandoffBriefing,
+  Task,
+  TaskStatus 
 } from '../types';
 import { mockUsers, mockProjects, mockHandoffs, mockActivities } from '../data/mockData';
 
@@ -59,6 +61,10 @@ interface AppContextType {
   toast: ToastState | null;
   showToast: (type: ToastState['type'], title: string, message: string) => void;
   hideToast: () => void;
+
+  // Task & Project Work Items
+  updateTaskStatus: (projectId: string, taskId: string, newStatus: TaskStatus) => void;
+  addTaskToProject: (projectId: string, task: Omit<Task, 'id'>) => void;
 
   // Theme (Dark / Light)
   theme: 'light' | 'dark';
@@ -564,6 +570,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast('info', 'Clarification Posted', 'Question added to the handoff inquiry thread.');
   };
 
+  const updateTaskStatus = (projectId: string, taskId: string, newStatus: TaskStatus) => {
+    setProjects(prev => prev.map(p => {
+      if (p.id === projectId) {
+        return {
+          ...p,
+          tasks: p.tasks.map(t => t.id === taskId ? { ...t, status: newStatus } : t),
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return p;
+    }));
+
+    showToast('success', 'Task Updated', `Task marked as ${newStatus}.`);
+  };
+
+  const addTaskToProject = (projectId: string, taskData: Omit<Task, 'id'>) => {
+    const newTask: Task = {
+      ...taskData,
+      id: `task-${Date.now()}`
+    };
+
+    setProjects(prev => prev.map(p => {
+      if (p.id === projectId) {
+        return {
+          ...p,
+          tasks: [newTask, ...p.tasks],
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return p;
+    }));
+
+    showToast('success', 'Task Created', `Added "${taskData.title}" to project.`);
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -598,6 +639,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         createHandoff,
         acceptHandoff,
         addClarification,
+        updateTaskStatus,
+        addTaskToProject,
         toast,
         showToast,
         hideToast,
