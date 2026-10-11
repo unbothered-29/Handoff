@@ -10,6 +10,7 @@ import { ProjectWorkspaceView } from './components/projects/ProjectWorkspaceView
 import { HandoffsInboxView } from './components/handoffs/HandoffsInboxView';
 import { HandoffDetailView } from './components/handoffs/HandoffDetailView';
 import { CreateHandoffModal } from './components/handoffs/CreateHandoffModal';
+import { PersonaSwitcherModal } from './components/common/PersonaSwitcherModal';
 import { AiAssistantView } from './components/ai/AiAssistantView';
 import { TeamView } from './components/team/TeamView';
 import { SettingsView } from './components/settings/SettingsView';
@@ -20,7 +21,9 @@ const MainContent: React.FC = () => {
     isAuthenticated,
     currentView, 
     isCreateHandoffOpen, 
-    setIsCreateHandoffOpen 
+    setIsCreateHandoffOpen,
+    isPersonaSwitcherOpen,
+    setIsPersonaSwitcherOpen 
   } = useApp();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -61,7 +64,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-200">
+    <div className="min-h-screen bg-[#050606] text-[#F5F5F2] flex flex-col transition-colors duration-200">
       {/* Sidebar Navigation */}
       <Sidebar
         collapsed={sidebarCollapsed}
@@ -78,8 +81,8 @@ const MainContent: React.FC = () => {
 
       {/* Main View Area */}
       <main
-        className={`flex-1 transition-all duration-300 p-4 sm:p-6 lg:p-8 ${
-          sidebarCollapsed ? 'lg:pl-24' : 'lg:pl-72'
+        className={`flex-1 transition-all duration-200 p-4 sm:p-6 lg:p-8 ${
+          sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-60'
         }`}
       >
         <div className="max-w-7xl mx-auto">
@@ -91,6 +94,10 @@ const MainContent: React.FC = () => {
       <CreateHandoffModal
         isOpen={isCreateHandoffOpen}
         onClose={() => setIsCreateHandoffOpen(false)}
+      />
+      <PersonaSwitcherModal
+        isOpen={isPersonaSwitcherOpen}
+        onClose={() => setIsPersonaSwitcherOpen(false)}
       />
       <Toast />
     </div>

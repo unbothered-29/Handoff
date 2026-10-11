@@ -51,43 +51,41 @@ export const TeamView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-150 text-[#F5F5F2]">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/[0.08]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Engineering Team Directory
+          <h1 className="text-2xl font-semibold tracking-tight text-[#F5F5F2]">
+            Engineering Team
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-            Engineers, system owners, and transition partners participating in Continuity protocols.
+          <p className="text-xs text-[#A0A09D] mt-1">
+            Engineers and system owners participating in continuity protocols and shift handoffs.
           </p>
         </div>
 
         <button
           onClick={() => setIsInviteOpen(true)}
-          className="inline-flex items-center gap-2 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FF672E] hover:bg-[#e6531e] text-white text-xs font-medium shadow-md shadow-[#FF672E]/20 transition-all self-start sm:self-auto cursor-pointer"
         >
-          <UserPlus className="w-4 h-4" />
-          <span>Invite Member</span>
+          <UserPlus className="w-3.5 h-3.5" />
+          <span>Invite colleague</span>
         </button>
       </div>
 
       {/* Search Bar */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-3 shadow-xs">
-        <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            placeholder="Search team members by name, email, department, or role..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:bg-white dark:focus:bg-slate-800"
-          />
-        </div>
+      <div className="relative max-w-sm">
+        <Search className="w-3.5 h-3.5 text-[#A0A09D] absolute left-3 top-1/2 -translate-y-1/2" />
+        <input
+          type="text"
+          placeholder="Search team..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full pl-9 pr-3 py-1.5 bg-[#0D0F10] border border-white/[0.08] rounded-lg text-xs text-[#F5F5F2] placeholder-[#A0A09D]/60 focus:outline-hidden focus:border-[#FF672E]/50 focus:ring-1 focus:ring-[#FF672E]/50"
+        />
       </div>
 
       {/* Team Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredUsers.map((member) => {
           const isCurrentUser = member.id === currentUser.id;
           const memberProjects = projects.filter(p => p.ownerId === member.id);
@@ -98,10 +96,10 @@ export const TeamView: React.FC = () => {
           return (
             <div
               key={member.id}
-              className={`bg-white dark:bg-slate-900 border rounded-xl p-5 shadow-xs flex flex-col justify-between transition-all ${
+              className={`bg-[#0D0F10] border rounded-2xl p-5 transition-all flex flex-col justify-between ${
                 isCurrentUser 
-                  ? 'border-indigo-300 dark:border-indigo-600 ring-1 ring-indigo-200 dark:ring-indigo-900/50' 
-                  : 'border-slate-200/90 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                  ? 'border-[#FF672E]/40 ring-1 ring-[#FF672E]/20' 
+                  : 'border-white/[0.08] hover:border-white/[0.15]'
               }`}
             >
               <div className="space-y-4">
@@ -111,38 +109,38 @@ export const TeamView: React.FC = () => {
                     <img
                       src={member.avatar}
                       alt={member.name}
-                      className="w-11 h-11 rounded-full object-cover ring-2 ring-slate-100 dark:ring-slate-800"
+                      className="w-10 h-10 rounded-full object-cover shrink-0 ring-1 ring-white/10"
                       referrerPolicy="no-referrer"
                     />
-                    <div>
-                      <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">{member.name}</h2>
-                      <p className="text-xs text-slate-600 dark:text-slate-300">{member.role}</p>
-                      <p className="text-[11px] text-slate-400 dark:text-slate-500">{member.department}</p>
+                    <div className="min-w-0">
+                      <h2 className="text-xs font-semibold text-[#F5F5F2] truncate">{member.name}</h2>
+                      <p className="text-[11px] text-[#A0A09D] truncate">{member.role}</p>
+                      <p className="text-[10px] text-[#A0A09D]/70 truncate font-mono">{member.department}</p>
                     </div>
                   </div>
 
                   {isCurrentUser && (
-                    <span className="text-[10px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 px-2 py-0.5 rounded">
+                    <span className="text-[10px] font-medium text-[#FF672E] bg-[#FF672E]/10 border border-[#FF672E]/30 px-2 py-0.5 rounded-full font-mono">
                       You
                     </span>
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2 text-xs">
+                <div className="pt-3 border-t border-white/[0.06] space-y-2 text-xs">
                   {/* Owned Projects */}
                   <div>
-                    <span className="text-[11px] text-slate-400 dark:text-slate-500 block mb-1">
-                      Primary System Ownership ({memberProjects.length}):
+                    <span className="text-[11px] text-[#A0A09D]/70 block mb-1 font-mono">
+                      Owned Systems ({memberProjects.length}):
                     </span>
                     {memberProjects.length === 0 ? (
-                      <span className="text-slate-400 dark:text-slate-500 text-[11px] italic">No active projects assigned</span>
+                      <span className="text-[#A0A09D]/50 text-[11px] italic">No active projects assigned</span>
                     ) : (
                       <div className="flex flex-wrap gap-1.5">
                         {memberProjects.map((p) => (
                           <button
                             key={p.id}
                             onClick={() => navigateToProject(p.id)}
-                            className="px-2 py-0.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded text-[11px] font-medium truncate max-w-[200px]"
+                            className="px-2 py-0.5 bg-[#050606] hover:bg-white/[0.06] text-[#F5F5F2] border border-white/[0.08] rounded text-[11px] font-mono transition-colors truncate max-w-[200px]"
                           >
                             {p.name}
                           </button>
@@ -153,12 +151,12 @@ export const TeamView: React.FC = () => {
 
                   {/* Handoff Participation */}
                   <div>
-                    <span className="text-[11px] text-slate-400 dark:text-slate-500 block mb-1">
-                      Handoffs Involved ({memberHandoffs.length}):
+                    <span className="text-[11px] text-[#A0A09D]/70 block mb-1 font-mono">
+                      Handoffs ({memberHandoffs.length}):
                     </span>
-                    <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400">
+                    <div className="flex items-center gap-2 text-[11px] text-[#A0A09D] font-mono">
                       <span>{memberHandoffs.filter(h => h.senderId === member.id).length} outgoing</span>
-                      <span>·</span>
+                      <span>&middot;</span>
                       <span>{memberHandoffs.filter(h => h.recipientId === member.id).length} incoming</span>
                     </div>
                   </div>
@@ -166,18 +164,18 @@ export const TeamView: React.FC = () => {
               </div>
 
               {/* Perspective Switch Button */}
-              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate">{member.email}</span>
+              <div className="pt-4 mt-4 border-t border-white/[0.06] flex items-center justify-between">
+                <span className="text-[11px] text-[#A0A09D]/60 truncate font-mono">{member.email}</span>
                 <button
                   onClick={() => setCurrentUser(member)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors ${
+                  className={`px-3 py-1 text-xs font-semibold rounded-full transition-colors ${
                     isCurrentUser
-                      ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-default'
-                      : 'bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300'
+                      ? 'bg-white/[0.06] text-[#A0A09D]/50 cursor-default'
+                      : 'bg-white/[0.06] hover:bg-[#FF672E] text-[#F5F5F2] hover:text-white cursor-pointer'
                   }`}
                   disabled={isCurrentUser}
                 >
-                  {isCurrentUser ? 'Active Persona' : 'Switch Persona'}
+                  {isCurrentUser ? 'Active' : 'Switch'}
                 </button>
               </div>
             </div>
@@ -187,53 +185,53 @@ export const TeamView: React.FC = () => {
 
       {/* Invite Member Modal */}
       {isInviteOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl max-w-md w-full overflow-hidden flex flex-col">
-            <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <UserPlus className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Invite Engineering Colleague</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="bg-[#0D0F10] rounded-2xl border border-white/[0.1] shadow-2xl max-w-md w-full overflow-hidden flex flex-col text-[#F5F5F2]">
+            <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <UserPlus className="w-5 h-5 text-[#FF672E]" />
+                <h3 className="text-sm font-semibold text-[#F5F5F2]">Invite Engineering Colleague</h3>
               </div>
               <button
                 onClick={() => setIsInviteOpen(false)}
-                className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                className="p-1 rounded-md text-[#A0A09D] hover:text-[#F5F5F2] hover:bg-white/[0.06] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleInviteSubmit} className="p-5 space-y-4 text-xs">
+            <form onSubmit={handleInviteSubmit} className="p-6 space-y-4 text-xs">
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+                <label className="block font-medium text-[#F5F5F2] mb-1.5">Full Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Jordan Lee"
                   value={inviteName}
                   onChange={(e) => setInviteName(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 bg-[#050606] border border-white/[0.08] rounded-xl text-[#F5F5F2] placeholder-[#A0A09D]/50 focus:outline-hidden focus:border-[#FF672E]/50"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Corporate Email</label>
+                <label className="block font-medium text-[#F5F5F2] mb-1.5">Corporate Email</label>
                 <input
                   type="email"
                   required
                   placeholder="jordan.lee@enterprise.internal"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  className="w-full px-3 py-2 bg-[#050606] border border-white/[0.08] rounded-xl text-[#F5F5F2] placeholder-[#A0A09D]/50 focus:outline-hidden focus:border-[#FF672E]/50"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Role</label>
+                  <label className="block font-medium text-[#F5F5F2] mb-1.5">Role</label>
                   <select
                     value={inviteRole}
                     onChange={(e) => setInviteRole(e.target.value as Role)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 bg-[#050606] border border-white/[0.08] rounded-xl text-[#F5F5F2] focus:outline-hidden focus:border-[#FF672E]/50"
                   >
                     <option value="Backend Engineer">Backend Engineer</option>
                     <option value="Frontend Engineer">Frontend Engineer</option>
@@ -245,31 +243,31 @@ export const TeamView: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Department</label>
+                  <label className="block font-medium text-[#F5F5F2] mb-1.5">Department</label>
                   <input
                     type="text"
                     value={inviteDepartment}
                     onChange={(e) => setInviteDepartment(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="w-full px-3 py-2 bg-[#050606] border border-white/[0.08] rounded-xl text-[#F5F5F2] focus:outline-hidden focus:border-[#FF672E]/50"
                   />
                 </div>
               </div>
 
-              <div className="p-2.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg text-[11px] text-slate-500 dark:text-slate-400">
+              <div className="p-3 bg-[#050606] border border-white/[0.06] rounded-xl text-[11px] text-[#A0A09D] font-mono">
                 Notice: Invitations are processed locally in demo sandbox memory.
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.08]">
                 <button
                   type="button"
                   onClick={() => setIsInviteOpen(false)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium"
+                  className="px-4 py-2 text-xs text-[#A0A09D] hover:text-[#F5F5F2] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-xs"
+                  className="px-5 py-2 rounded-full bg-[#FF672E] hover:bg-[#e6531e] text-white font-medium shadow-md shadow-[#FF672E]/20 cursor-pointer"
                 >
                   Send Invitation
                 </button>

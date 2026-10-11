@@ -5,18 +5,13 @@ import {
   ArrowRightLeft, 
   GitCommit, 
   Layers, 
-  FileText, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Clock, 
-  ShieldAlert, 
   Terminal, 
   FileCode, 
-  ChevronRight,
-  BookOpen,
   ArrowLeft,
-  ExternalLink,
-  Plus
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+  ExternalLink
 } from 'lucide-react';
 
 export const ProjectWorkspaceView: React.FC = () => {
@@ -45,106 +40,100 @@ export const ProjectWorkspaceView: React.FC = () => {
     project.status === 'Review Needed' ? 'error' : 'neutral';
 
   const blockers = project.tasks.filter(t => t.isBlocker || t.status === 'Blocked');
-  const pendingTasks = project.tasks.filter(t => t.status === 'In Progress' || t.status === 'Pending');
-  const completedTasks = project.tasks.filter(t => t.status === 'Completed');
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in duration-150 text-[#F5F5F2]">
       {/* Back breadcrumb navigation */}
       <button
         onClick={() => setCurrentView('projects')}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
+        className="inline-flex items-center gap-2 text-xs font-medium text-[#A0A09D] hover:text-[#F5F5F2] transition-colors cursor-pointer group"
       >
-        <ArrowLeft className="w-3.5 h-3.5" />
-        <span>Back to Projects List</span>
+        <ArrowLeft className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+        <span>Back to projects</span>
       </button>
 
       {/* Project Header Card */}
-      <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 sm:p-7 shadow-xs">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="bg-[#0D0F10] border border-white/[0.08] rounded-2xl p-6 sm:p-7 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="space-y-2 min-w-0 flex-1">
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <div className="flex items-center gap-3 flex-wrap">
+              <h1 className="text-2xl font-semibold tracking-tight text-[#F5F5F2]">
                 {project.name}
               </h1>
-              <StatusBadge variant={statusVariant as any} size="md">
+              <StatusBadge variant={statusVariant as any}>
                 {project.status}
               </StatusBadge>
-              <span className="text-xs font-mono font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded">
-                HEAD: {project.currentVersionId}
+              <span className="text-[11px] font-mono text-[#A0A09D] bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded">
+                {project.currentVersionId}
               </span>
               {activeHandoff && (
-                <span className="text-xs font-medium text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-2 py-0.5 rounded flex items-center gap-1">
-                  <ArrowRightLeft className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
-                  Handoff Active (Pinned to {activeHandoff.pinnedVersionId})
+                <span className="text-[11px] font-medium text-[#FF672E] bg-[#FF672E]/10 border border-[#FF672E]/30 px-2 py-0.5 rounded inline-flex items-center gap-1">
+                  <ArrowRightLeft className="w-3 h-3 text-[#FF672E]" />
+                  Handoff pending ({activeHandoff.pinnedVersionId})
                 </span>
               )}
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-4xl">
+            <p className="text-xs text-[#A0A09D] leading-relaxed max-w-3xl">
               {project.description}
             </p>
 
-            <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 flex-wrap pt-1">
-              <div className="flex items-center gap-1.5">
-                <span className="text-slate-400 dark:text-slate-500">Owner:</span>
-                {owner && (
-                  <div className="flex items-center gap-1.5">
-                    <img
-                      src={owner.avatar}
-                      alt={owner.name}
-                      className="w-4 h-4 rounded-full object-cover"
-                      referrerPolicy="no-referrer"
-                    />
-                    <span className="font-semibold text-slate-800 dark:text-slate-200">{owner.name}</span>
-                    <span className="text-slate-400 dark:text-slate-500">({owner.role})</span>
-                  </div>
-                )}
-              </div>
-              <span>·</span>
-              <span>Squad: <strong className="text-slate-700 dark:text-slate-300 font-medium">{project.team}</strong></span>
-              <span>·</span>
-              <span className="font-mono text-slate-600 dark:text-slate-400 truncate max-w-xs">{project.repositoryUrl}</span>
+            <div className="flex items-center gap-3 text-xs text-[#A0A09D]/80 flex-wrap pt-1 font-mono">
+              {owner && (
+                <div className="flex items-center gap-1.5">
+                  <img
+                    src={owner.avatar}
+                    alt={owner.name}
+                    className="w-4 h-4 rounded-full object-cover ring-1 ring-white/10"
+                    referrerPolicy="no-referrer"
+                  />
+                  <span>Owner: <strong className="font-medium text-[#F5F5F2]">{owner.name}</strong></span>
+                </div>
+              )}
+              <span>&middot;</span>
+              <span>Team: {project.team}</span>
+              <span>&middot;</span>
+              <span className="truncate max-w-xs">{project.repositoryUrl}</span>
             </div>
           </div>
 
-          {/* Primary Action */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* Primary Action Button */}
+          <div className="shrink-0 self-start sm:self-center">
             <button
               onClick={() => openCreateHandoff(project.id)}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors flex items-center gap-2"
+              className="px-5 py-2.5 bg-[#FF672E] hover:bg-[#e6531e] text-white text-xs font-medium rounded-full shadow-md shadow-[#FF672E]/20 transition-all flex items-center gap-2 cursor-pointer"
             >
-              <ArrowRightLeft className="w-4 h-4" />
-              <span>Start Handoff</span>
+              <ArrowRightLeft className="w-3.5 h-3.5" />
+              <span>Start a handoff</span>
             </button>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="mt-8 border-b border-slate-200 dark:border-slate-800 flex items-center gap-1 overflow-x-auto">
+        <div className="pt-2 border-t border-white/[0.08] flex items-center gap-2 overflow-x-auto">
           {[
-            { id: 'overview', label: 'Overview & Architecture', count: undefined },
-            { id: 'history', label: 'Version History', count: project.versions.length },
-            { id: 'tasks', label: 'Tasks & Blockers', count: blockers.length > 0 ? blockers.length : undefined },
-            { id: 'files', label: 'Files & Runbooks', count: project.files.length },
+            { id: 'overview', label: 'Overview' },
+            { id: 'history', label: 'History', count: project.versions.length },
+            { id: 'tasks', label: 'Tasks', count: blockers.length > 0 ? blockers.length : undefined },
+            { id: 'files', label: 'Files', count: project.files.length },
           ].map((tab) => {
             const isActive = selectedProjectTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setSelectedProjectTab(tab.id as any)}
-                className={`pb-3 px-3 text-xs font-semibold whitespace-nowrap border-b-2 transition-all flex items-center gap-1.5 ${
+                className={`py-2 px-3 text-xs font-medium border-b-2 transition-all flex items-center gap-1.5 cursor-pointer ${
                   isActive
-                    ? 'border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+                    ? 'border-[#FF672E] text-[#F5F5F2] font-semibold'
+                    : 'border-transparent text-[#A0A09D] hover:text-[#F5F5F2]'
                 }`}
               >
                 <span>{tab.label}</span>
                 {tab.count !== undefined && (
-                  <span className={`px-1.5 py-0.2 rounded text-[10px] ${
+                  <span className={`px-1.5 py-0.2 rounded text-[10px] font-mono ${
                     tab.id === 'tasks' && blockers.length > 0
-                      ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                      ? 'bg-rose-950/60 text-rose-300 font-bold border border-rose-800/40'
+                      : 'bg-white/[0.06] text-[#A0A09D]'
                   }`}>
                     {tab.count}
                   </span>
@@ -159,107 +148,66 @@ export const ProjectWorkspaceView: React.FC = () => {
       {selectedProjectTab === 'overview' && (
         <div className="space-y-6">
           {/* Architecture Summary */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">
-              <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-              <span>System Architecture & Runtime Overview</span>
-            </div>
-            <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-mono bg-slate-50 dark:bg-slate-800/70 p-3.5 rounded-lg border border-slate-200/70 dark:border-slate-700">
+          <div className="bg-[#0D0F10] border border-white/[0.08] rounded-xl p-5 sm:p-6 space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#A0A09D]/80 font-mono">
+              System Architecture &amp; Context
+            </h3>
+            <p className="text-xs text-[#F5F5F2] leading-relaxed font-mono bg-[#050606] p-4 rounded-lg border border-white/[0.06]">
               {project.architectureSummary}
             </p>
           </div>
 
-          {/* Quickstart Guide */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider">
-                <Terminal className="w-4 h-4 text-slate-700 dark:text-slate-300" />
-                <span>Quickstart & Local Setup Runbook</span>
-              </div>
-              <span className="text-[11px] text-slate-400 dark:text-slate-500">Verified by outgoing lead</span>
-            </div>
-            <pre className="p-4 bg-slate-950 text-slate-100 rounded-xl text-xs font-mono overflow-x-auto leading-relaxed border border-slate-800">
+          {/* Quickstart Setup */}
+          <div className="bg-[#0D0F10] border border-white/[0.08] rounded-xl p-5 sm:p-6 space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#A0A09D]/80 font-mono">
+              Setup &amp; Runbook
+            </h3>
+            <pre className="p-4 bg-[#050606] text-[#F5F5F2] rounded-lg text-xs font-mono overflow-x-auto leading-relaxed border border-white/[0.06]">
               {project.quickstartGuide}
             </pre>
           </div>
 
           {/* Architecture Decision Records (ADRs) */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4">
+          <div className="bg-[#0D0F10] border border-white/[0.08] rounded-xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Architecture Decision Records (ADRs)</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Crucial &ldquo;why&rdquo; technical rationale so inheriting engineers understand past trade-offs</p>
-              </div>
-              <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400">{project.decisions.length} recorded</span>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#A0A09D]/80 font-mono">
+                Architecture Decision Records
+              </h3>
+              <span className="text-[11px] text-[#A0A09D] font-mono">{project.decisions.length} recorded</span>
             </div>
 
             {project.decisions.length === 0 ? (
-              <p className="text-xs text-slate-500 dark:text-slate-400 py-3">No architecture decision records logged for this project yet.</p>
+              <p className="text-xs text-[#A0A09D] py-2">No decision records logged.</p>
             ) : (
               <div className="space-y-3">
                 {project.decisions.map((adr) => (
-                  <div key={adr.id} className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+                  <div key={adr.id} className="p-3.5 rounded-lg border border-white/[0.06] bg-[#050606] space-y-2 text-xs">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                        <span className="font-mono font-medium text-[#FF672E]">
                           {adr.id}
                         </span>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">{adr.title}</h4>
+                        <span className="font-medium text-[#F5F5F2]">{adr.title}</span>
                       </div>
-                      <span className="text-[11px] text-slate-400 dark:text-slate-500 tabular-nums">Decided: {adr.date}</span>
+                      <span className="text-[11px] text-[#A0A09D] font-mono">{adr.date}</span>
                     </div>
 
-                    <div className="text-xs space-y-1 pt-1">
-                      <p className="text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-200">Context:</strong> {adr.context}</p>
-                      <p className="text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-200">Decision:</strong> {adr.decision}</p>
-                      <p className="text-slate-600 dark:text-slate-400"><strong className="text-slate-800 dark:text-slate-200">Consequences:</strong> {adr.consequences}</p>
+                    <div className="text-xs space-y-1 pt-1 text-[#A0A09D]">
+                      <p><strong className="text-[#F5F5F2] font-medium">Context:</strong> {adr.context}</p>
+                      <p><strong className="text-[#F5F5F2] font-medium">Decision:</strong> {adr.decision}</p>
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-
-          {/* Risks & Mitigations */}
-          {project.risks.length > 0 && (
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-3">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Known Operational Risks & Safeguards</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {project.risks.map((risk) => (
-                  <div key={risk.id} className="p-4 rounded-xl border border-amber-200/80 dark:border-amber-800/80 bg-amber-50/50 dark:bg-amber-950/20 space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-amber-950 dark:text-amber-200">{risk.title}</span>
-                      <StatusBadge variant={risk.severity === 'High' ? 'error' : 'warning'}>
-                        {risk.severity} Severity
-                      </StatusBadge>
-                    </div>
-                    <p className="text-xs text-amber-900/80 dark:text-amber-300/80 leading-relaxed">
-                      <strong className="text-amber-950 dark:text-amber-200">Mitigation:</strong> {risk.mitigation}
-                    </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">Contact: {risk.owner}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       )}
 
       {/* Tab 2: Version History */}
       {selectedProjectTab === 'history' && (
-        <div className="space-y-6">
-          <div className="bg-indigo-50/60 dark:bg-indigo-950/30 border border-indigo-200/80 dark:border-indigo-800/80 rounded-xl p-4 flex items-start gap-3">
-            <GitCommit className="w-5 h-5 text-indigo-700 dark:text-indigo-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-indigo-950 dark:text-indigo-200 space-y-0.5">
-              <p className="font-bold">Immutable Version Snapshots</p>
-              <p className="text-indigo-900/80 dark:text-indigo-300/80 leading-relaxed">
-                Handoffs bind to an exact snapshot version hash. If someone commits code after a handoff is initiated, 
-                Continuity displays a drift warning so recipients never inherit ambiguous states.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl divide-y divide-slate-100 dark:divide-slate-800 shadow-xs">
+        <div className="space-y-4">
+          <div className="border border-white/[0.08] rounded-xl bg-[#0D0F10] divide-y divide-white/[0.06] overflow-hidden">
             {project.versions.map((ver, idx) => {
               const isHead = idx === 0;
               const isPinnedToHandoff = activeHandoff && activeHandoff.pinnedVersionId === ver.id;
@@ -267,59 +215,51 @@ export const ProjectWorkspaceView: React.FC = () => {
 
               return (
                 <div key={ver.id} className="p-5 space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-2.5 flex-wrap">
-                      <span className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                      <span className="text-xs font-mono font-semibold text-[#F5F5F2]">
                         {ver.id}
                       </span>
-                      <span className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                      <span className="text-xs font-mono text-[#A0A09D]">
                         ({ver.hash})
                       </span>
                       {isHead && (
-                        <StatusBadge variant="indigo">Current HEAD</StatusBadge>
+                        <StatusBadge variant="orange">HEAD</StatusBadge>
                       )}
                       {isPinnedToHandoff && (
-                        <StatusBadge variant="warning">Pinned in HO-2026-089</StatusBadge>
+                        <StatusBadge variant="warning">Pinned in handoff</StatusBadge>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                      <div className="flex items-center gap-1.5">
-                        <img
-                          src={ver.author.avatar}
-                          alt={ver.author.name}
-                          className="w-4 h-4 rounded-full object-cover"
-                          referrerPolicy="no-referrer"
-                        />
-                        <span className="font-medium text-slate-700 dark:text-slate-300">{ver.author.name}</span>
-                      </div>
-                      <span>·</span>
-                      <span className="tabular-nums">{ver.timestamp.split('T')[0]}</span>
+                    <div className="flex items-center gap-2.5 text-xs text-[#A0A09D] font-mono">
+                      <span>{ver.author.name}</span>
+                      <span>&middot;</span>
+                      <span>{ver.timestamp.split('T')[0]}</span>
                     </div>
                   </div>
 
-                  <p className="text-xs font-mono text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-lg border border-slate-200/70 dark:border-slate-700">
+                  <p className="text-xs text-[#F5F5F2] font-mono bg-[#050606] p-3 rounded-lg border border-white/[0.06]">
                     {ver.commitMessage}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs pt-1">
-                    <span className="text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center justify-between text-xs pt-0.5">
+                    <span className="text-[11px] text-[#A0A09D] font-mono">
                       {ver.changedFilesCount} changed files
                     </span>
                     <button
                       onClick={() => setActiveDiffVersionId(isDiffOpen ? null : ver.id)}
-                      className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
+                      className="text-xs text-[#FF672E] hover:underline cursor-pointer font-medium"
                     >
-                      {isDiffOpen ? 'Hide changed files' : 'View changed files'}
+                      {isDiffOpen ? 'Hide files' : 'View files'}
                     </button>
                   </div>
 
                   {isDiffOpen && (
-                    <div className="mt-3 p-3 bg-slate-50 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700 space-y-2 text-xs">
+                    <div className="mt-3 p-3 bg-[#050606] rounded-lg border border-white/[0.06] space-y-1.5 text-xs font-mono text-[11px]">
                       {ver.changedFiles.map((file, fIdx) => (
-                        <div key={fIdx} className="flex items-center justify-between font-mono text-[11px]">
-                          <span className="text-slate-700 dark:text-slate-300 truncate">{file.path}</span>
-                          <span className="text-emerald-700 dark:text-emerald-400 tabular-nums">+{file.insertions} / -{file.deletions}</span>
+                        <div key={fIdx} className="flex items-center justify-between">
+                          <span className="text-[#A0A09D] truncate">{file.path}</span>
+                          <span className="text-emerald-400">+{file.insertions} / -{file.deletions}</span>
                         </div>
                       ))}
                     </div>
@@ -331,108 +271,74 @@ export const ProjectWorkspaceView: React.FC = () => {
         </div>
       )}
 
-      {/* Tab 3: Tasks & Blockers */}
+      {/* Tab 3: Tasks */}
       {selectedProjectTab === 'tasks' && (
-        <div className="space-y-6">
-          {/* Active Blockers Callout */}
+        <div className="space-y-4">
           {blockers.length > 0 && (
-            <div className="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/60 rounded-xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold text-rose-900 dark:text-rose-300 uppercase tracking-wider">
-                <ShieldAlert className="w-4 h-4 text-rose-700 dark:text-rose-400" />
-                <span>Critical Blockers Requiring Immediate Escalation</span>
-              </div>
-              <div className="space-y-2">
-                {blockers.map((b) => (
-                  <div key={b.id} className="p-3.5 bg-white dark:bg-slate-900 rounded-lg border border-rose-200 dark:border-rose-800 text-xs space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-slate-900 dark:text-slate-100">{b.title}</span>
-                      <StatusBadge variant="error">Critical Blocker</StatusBadge>
-                    </div>
-                    <p className="text-rose-800 dark:text-rose-300 font-medium">
-                      <strong>Reason:</strong> {b.blockerReason || 'External dependency unfulfilled.'}
-                    </p>
-                    <p className="text-slate-500 dark:text-slate-400 text-[11px]">Assigned to: {b.assignee || 'Unassigned'}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Tasks Groupings */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Outstanding Deliverables & Backlog</h3>
-            
-            <div className="space-y-2.5">
-              {project.tasks.map((task) => (
-                <div 
-                  key={task.id} 
-                  className="p-3.5 rounded-lg border border-slate-200/80 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-800/60 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                >
-                  <div className="space-y-1 min-w-0 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-bold text-slate-900 dark:text-slate-100">{task.title}</span>
-                      <StatusBadge variant={
-                        task.status === 'Completed' ? 'success' :
-                        task.status === 'Blocked' ? 'error' :
-                        task.status === 'In Progress' ? 'indigo' : 'neutral'
-                      }>
-                        {task.status}
-                      </StatusBadge>
-                      <span className="text-[11px] text-slate-500 dark:text-slate-400">Priority: {task.priority}</span>
-                    </div>
-                    <p className="text-slate-600 dark:text-slate-400 line-clamp-1">{task.description}</p>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-[11px] text-slate-500 dark:text-slate-400 shrink-0">
-                    {task.assignee && <span>Assignee: <strong className="text-slate-700 dark:text-slate-300">{task.assignee}</strong></span>}
-                    {task.dueDate && <span>Due: {task.dueDate}</span>}
-                  </div>
+            <div className="p-4 rounded-xl border border-rose-900/40 bg-rose-950/20 text-xs space-y-1.5">
+              <span className="font-semibold text-rose-300">
+                Critical Blockers ({blockers.length})
+              </span>
+              {blockers.map((b) => (
+                <div key={b.id} className="text-rose-300/90 flex items-start gap-2">
+                  <span className="font-medium">• {b.title}:</span>
+                  <span>{b.blockerReason || 'External dependency unfulfilled.'}</span>
                 </div>
               ))}
             </div>
+          )}
+
+          <div className="border border-white/[0.08] rounded-xl bg-[#0D0F10] divide-y divide-white/[0.06] overflow-hidden">
+            {project.tasks.map((task) => (
+              <div 
+                key={task.id} 
+                className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs hover:bg-white/[0.03] transition-colors"
+              >
+                <div className="space-y-1 min-w-0 flex-1">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <span className="font-medium text-[#F5F5F2]">{task.title}</span>
+                    <StatusBadge variant={
+                      task.status === 'Completed' ? 'success' :
+                      task.status === 'Blocked' ? 'error' :
+                      task.status === 'In Progress' ? 'orange' : 'neutral'
+                    }>
+                      {task.status}
+                    </StatusBadge>
+                    <span className="text-[11px] text-[#A0A09D] font-mono">Priority: {task.priority}</span>
+                  </div>
+                  <p className="text-[#A0A09D] line-clamp-1">{task.description}</p>
+                </div>
+
+                <div className="flex items-center gap-3 text-[11px] text-[#A0A09D] shrink-0 font-mono">
+                  {task.assignee && <span>Assignee: {task.assignee}</span>}
+                  {task.dueDate && <span>Due: {task.dueDate}</span>}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* Tab 4: Files & Docs */}
+      {/* Tab 4: Files */}
       {selectedProjectTab === 'files' && (
-        <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl p-6 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Critical Project Files & Documentation</h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Essential source files and operations documents transferred with this project</p>
-              </div>
-              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">{project.files.length} registered assets</span>
-            </div>
-
-            <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden divide-y divide-slate-100 dark:divide-slate-800 text-xs">
-              {project.files.map((file) => (
-                <div key={file.id} className="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/60">
-                  <div className="flex items-start gap-3 min-w-0">
-                    <FileCode className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 mt-0.5" />
-                    <div className="min-w-0">
-                      <p className="font-mono font-bold text-slate-900 dark:text-slate-100 truncate">{file.name}</p>
-                      <p className="text-slate-600 dark:text-slate-400 text-[11px] line-clamp-1">{file.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-[11px] text-slate-400 dark:text-slate-500 shrink-0">
-                    <span className="capitalize bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-slate-600 dark:text-slate-300 border border-transparent dark:border-slate-700">{file.type}</span>
-                    <span className="tabular-nums">{file.size}</span>
-                    <span>Mod: {file.lastModified}</span>
-                  </div>
+        <div className="border border-white/[0.08] rounded-xl bg-[#0D0F10] divide-y divide-white/[0.06] overflow-hidden text-xs">
+          {project.files.map((file) => (
+            <div key={file.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.03]">
+              <div className="flex items-start gap-3 min-w-0">
+                <FileCode className="w-4 h-4 text-[#A0A09D] shrink-0 mt-0.5" />
+                <div className="min-w-0">
+                  <p className="font-mono font-medium text-[#F5F5F2] truncate">{file.name}</p>
+                  <p className="text-[#A0A09D] text-[11px] line-clamp-1">{file.description}</p>
                 </div>
-              ))}
-            </div>
+              </div>
 
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 rounded-lg text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-              <span>
-                <strong>Secret Hygiene Enforced:</strong> All `.env`, certificate private keys, and credential stores are masked and omitted from public briefings.
-              </span>
+              <div className="flex items-center gap-3 text-[11px] text-[#A0A09D] shrink-0 font-mono">
+                <span className="capitalize bg-white/[0.06] px-2 py-0.5 rounded text-[#F5F5F2]">{file.type}</span>
+                <span className="tabular-nums">{file.size}</span>
+                <span>Modified {file.lastModified}</span>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       )}
     </div>

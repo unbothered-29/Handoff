@@ -41,6 +41,8 @@ interface AppContextType {
   setCreateHandoffPreselectedProjectId: (id: string | null) => void;
   isCreateProjectOpen: boolean;
   setIsCreateProjectOpen: (open: boolean) => void;
+  isPersonaSwitcherOpen: boolean;
+  setIsPersonaSwitcherOpen: (open: boolean) => void;
 
   // Actions
   navigateToProject: (projectId: string, tab?: 'overview' | 'history' | 'tasks' | 'files') => void;
@@ -81,18 +83,15 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Theme state
+  // Theme state: default to 'dark' for Continuity's cinematic dark aesthetic
   const [theme, setThemeState] = useState<'light' | 'dark'>(() => {
     try {
       const savedTheme = localStorage.getItem('continuity_theme');
       if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
     } catch {
       // Fallback
     }
-    return 'light';
+    return 'dark';
   });
 
   useEffect(() => {
@@ -195,6 +194,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isCreateHandoffOpen, setIsCreateHandoffOpen] = useState(false);
   const [createHandoffPreselectedProjectId, setCreateHandoffPreselectedProjectId] = useState<string | null>(null);
   const [isCreateProjectOpen, setIsCreateProjectOpen] = useState(false);
+  const [isPersonaSwitcherOpen, setIsPersonaSwitcherOpen] = useState(false);
 
   const [toast, setToast] = useState<ToastState | null>(null);
 
@@ -632,6 +632,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCreateHandoffPreselectedProjectId,
         isCreateProjectOpen,
         setIsCreateProjectOpen,
+        isPersonaSwitcherOpen,
+        setIsPersonaSwitcherOpen,
         navigateToProject,
         navigateToHandoff,
         openCreateHandoff,
